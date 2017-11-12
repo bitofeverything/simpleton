@@ -8,6 +8,7 @@
     "start": "yarn run build && node dist/index.js"
   },
   "dependencies": {
+    "camelcase": "^4.1.0",
     "discord.io": "^2.5.3",
     "fetch": "^1.1.0",
     "node-fetch": "^1.7.3",

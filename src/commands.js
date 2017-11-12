@@ -1,19 +1,15 @@
-
-
-export const commands = {
-  "triggerable": [
+ const commands = {
+  "triggered": [
     {
       "trigger" : "!",
       "actions" : [
         {
-          "tkeyword":"weather",
-          "method":printWeather,
-          "interval":300000,
-          "intervalFunction":weatherUpdate
+          "keyword":"weather",
+          "method": "printWeather"
         },
         {
           "keyword":"help",
-          "method":outputHelp
+          "method": "outputHelp"
         },
         {
           "keyword":"play",
@@ -23,12 +19,18 @@ export const commands = {
     }
   ],
   "timed": [
-
+    {
+      "name":"Weather Update",
+      "interval":300000,
+      "method":'weatherUpdate'
+    }
   ],
   "persistent" : [
     {
       "action":"bawk",
-      "method":bawkBack,
+      "method":'bawkBack',
     }
   ]
 }
+
+export default commands;
