@@ -14,16 +14,16 @@ const simpleton = new Simpleton({commands})
 
 simpleton.loadActions();
 
-// var weatherJsonObject = {}
-// var regularWeatherNotice = 'The weather has not been updated yet.';
+var weatherJsonObject = {}
+var regularWeatherNotice = 'The weather has not been updated yet.';
 
 var weatherUpdate = () => {
-  weatherFetch().then((resp) => {
-    logger.info("Response received")
-    logger.info(resp[0]);
-    regularWeatherNotice = resp[0]
-    weatherJsonObject = resp[1]
-  });
+  // weatherFetch().then((resp) => {
+  //   logger.info("Response received")
+  //   logger.info(resp[0]);
+  //   regularWeatherNotice = resp[0]
+  //   weatherJsonObject = resp[1]
+  // });
 };
 
 logger.info(simpleton.getTriggered())
@@ -45,15 +45,22 @@ setInterval( weatherUpdate, 300000);
 //   }
 // }
 
-// simpleton.on('ready', function(evt) {
-//   weatherUpdate();
-//   logger.info('Connected');
-//   logger.info('Logged in as: ');
-//   logger.info(bot.username + ' - ' + bot.id);
-//   logger.info("These are the channels I know about")
-//   Object.keys(bot.channels).map(c =>
-//     logger.info(bot.channels[c].name + " : \t\t\t" + bot.channels[c].guild_id));
-// });
+simpleton.on('ready', function(evt) {
+  weatherUpdate();
+  logger.info('Connected');
+  logger.info('Logged in as: ');
+  logger.info(simpleton.user.username + ' - ' + simpleton.user.id);
+  logger.info("These are the channels I know about")
+  // logger.info(simpleton.channels);
+  simpleton.channels.map(c => {
+
+    logger.info(c.name + " : \t\t\t" + c.id);
+  });
+});
+
+
+simpleton.connect();
+
 //
 // simpleton.on('message', function(user, userID, channelID, message, evt) {
 //

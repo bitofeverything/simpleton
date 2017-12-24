@@ -1,4 +1,5 @@
 
-export const printWeather = () => {
-  console.log("Wow, the weather, real nice");
+module.exports = (bot) => {
+
+  console.log(bot.props.weather);
 }
