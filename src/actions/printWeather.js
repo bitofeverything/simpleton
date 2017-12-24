@@ -1,5 +1,6 @@
 
-module.exports = (bot) => {
+module.exports = (bot, message) => {
 
-  console.log(bot.props.weather);
+  const weather = bot.props.weather;
+  message.channel.send("The weather is : ???");
 }

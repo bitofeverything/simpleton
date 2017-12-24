@@ -22,7 +22,7 @@
   "timed": [
     {
       "name":"Weather Update",
-      "interval":30000,
+      "interval":300000,
       "method":"weatherUpdate",
       "property": "weather"
     }

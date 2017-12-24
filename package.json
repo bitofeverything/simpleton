@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "camelcase": "^4.1.0",
-    "discord.io": "^2.5.3",
     "discord.js": "^11.2.1",
     "fetch": "^1.1.0",
     "node-fetch": "^1.7.3",

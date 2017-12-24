@@ -56,13 +56,15 @@ export default class Simpleton extends Client {
   }
 
   _handleMessage(message){
+    if(message.author.username !== this.user.username){
     const triggers = Object.keys(this.config.triggers);
     triggers.map(t => {
       if(message.content.toLowerCase().startsWith(t)){
         const args = message.content.split(' ').slice(1);
-        this.config.triggers[t].fn(this, {args})
+        this.config.triggers[t].fn(this, message, {args});
       }
     })
+  }
 
   }
 
