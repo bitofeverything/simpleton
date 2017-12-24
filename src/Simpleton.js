@@ -44,6 +44,7 @@ export default class Simpleton extends Client {
 
   }
 
+
   _initializeTimedFunctions(){
     Object.keys(this.config.timed).map(evt=>{
       const t = this.config.timed[evt];
@@ -57,13 +58,22 @@ export default class Simpleton extends Client {
 
   _handleMessage(message){
     if(message.author.username !== this.user.username){
-    const triggers = Object.keys(this.config.triggers);
-    triggers.map(t => {
+      console.log("Handling it");
+    console.log(this.config);
+    const { persistent, triggers } = this.config;
+    console.log(persistent);
+    console.log(triggers);
+    for( const t in triggers){
       if(message.content.toLowerCase().startsWith(t)){
         const args = message.content.split(' ').slice(1);
         this.config.triggers[t].fn(this, message, {args});
       }
-    })
+    }
+    for( const p in persistent){
+      if(this.config.persistent[p].fn(this, message)){
+        break
+      }
+    }
   }
 
   }

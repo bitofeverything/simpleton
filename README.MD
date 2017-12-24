@@ -70,6 +70,10 @@ module.exports = (props) => {
 }
 ```
 
+#### Notes regarding persistent functions
+
+A Persistent action needs to return false if it did not run. Otherwise the loop breaks and no additional checks on the message are attempted.
+
 Boilerplate from [Tutorial: Creating a Simple Discord Bot by Renemari Padillo  (@renesansz)](https://medium.com/@renesansz/tutorial-creating-a-simple-discord-bot-9465a2764dc0)
 
 Built with [discord.js](https://discord.js.org/)

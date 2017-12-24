@@ -14,7 +14,8 @@
         {
           "keyword":"play",
           "method":"inviteToPlay",
-          "args":["game"]
+          "args":["game"],
+          // "delimitter": "+"
         }
       ]
     }

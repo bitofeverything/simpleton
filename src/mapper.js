@@ -24,7 +24,7 @@ class MapFunctions{
     const persistent = {}
     arr.map(persistentEntry => {
       // name, method.
-      persistent[persistentEntry.name] = {fn:require('./actions/'+persistentEntry.method)}
+      persistent[persistentEntry.action] = {fn:require('./actions/'+persistentEntry.method)}
     })
 
     console.log(persistent);
