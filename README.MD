@@ -15,7 +15,7 @@ Entirely a toy application to learn a bit about chat bots.
 
 Define a commands.js file in the ./src folder.
 
-```
+```js
 const commands = {
  "triggered": [
    {
@@ -53,7 +53,7 @@ For each block defined, create an export in the actions folder.
 
 
 #### triggered export example:
-```
+```js
 module.exports = (bot, message) => {
   message.channel.send("Hey, thanks for running that command.");
 }
@@ -64,7 +64,7 @@ Every triggered and persistent function will get passed an instance of the bot a
 Timed functions will receive the `bot.props` object where you can add a property key to store data you may refer to in trigger or persistent functions.
 
 #### timed exports example:
-```
+```js
 module.exports = (props) => {
   props.weather = {} // Some JSON body of the weather you may choose to parse later.
 }
