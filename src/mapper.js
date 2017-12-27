@@ -10,7 +10,7 @@ class MapFunctions{
       // { trigger: actions:{arg array, str:methods }}
       Object.keys(triggerEntry.actions).map(actionKey => {
         const action = triggerEntry.actions[actionKey]
-        triggers[triggerEntry.trigger+action.keyword] = {fn:require('./actions/'+action.method),args:action.args};
+        triggers[triggerEntry.trigger+action.keyword] = {fn:require('./actions/'+action.method),args:action.args,is_secret:action.is_secret?true:false};
       })
 
     })

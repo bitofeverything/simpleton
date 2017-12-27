@@ -9,7 +9,7 @@
         },
         {
           "keyword":"help",
-          "method": "outputHelp"
+          "method": "outputHelp",
         },
         {
           "keyword":"play",
@@ -18,14 +18,29 @@
           // "delimitter": "+"
         }
       ]
+    },
+    {
+      "trigger":"$",
+      "actions": [
+        {
+          "keyword":"embed",
+          "method":"customEmbedTest",
+          "is_secret":true
+        }
+      ]
     }
   ],
   "timed": [
     {
       "name":"Weather Update",
-      "interval":300000,
+      "interval":1800000,
       "method":"weatherUpdate",
       "property": "weather"
+    },
+    {
+      "name":"Grab Game Library",
+      "interval":43200000, // Update every 12 hours. This library is really unlikely to need frequent updates.
+      "method":"gameLibrary"
     }
   ],
   "persistent" : [

@@ -1,10 +1,12 @@
 'use strict';
-import Discord, {Client} from 'discord.js';
+import Discord, {
+  Client
+} from 'discord.js';
 import camelCase from 'camelcase';
 import MapFunctions from './mapper';
 const auth = require('../auth.json');
 
-function mapTriggers(arr){
+function mapTriggers(arr) {
   console.log('received')
   console.log(arr);
   const triggers = {};
@@ -13,7 +15,10 @@ function mapTriggers(arr){
     // { trigger: actions:{arg array, str:methods }}
     Object.keys(triggerEntry.actions).map(actionKey => {
       const action = triggerEntry.actions[actionKey]
-      triggers[triggerEntry.trigger+action.keyword] = {fn:require('./actions/'+action.method),args:action.args};
+      triggers[triggerEntry.trigger + action.keyword] = {
+        fn: require('./actions/' + action.method),
+        args: action.args
+      };
     })
 
   })
@@ -27,8 +32,8 @@ export default class Simpleton extends Client {
     super();
 
     this.config = {
-      'actions':'/actions/',
-      'commands':{}
+      'actions': '/actions/',
+      'commands': {}
     }
     this.params = {};
     this.props = {}; //Collection of props.
@@ -45,86 +50,98 @@ export default class Simpleton extends Client {
   }
 
 
-  _initializeTimedFunctions(){
-    Object.keys(this.config.timed).map(evt=>{
+  _initializeTimedFunctions() {
+    Object.keys(this.config.timed).map(evt => {
       const t = this.config.timed[evt];
       t.fn(this.props);
-      setInterval(()=>{
+      setInterval(() => {
         t.fn(this.props)
       }, t.interval);
     });
     console.log(Object.keys(this.props));
   }
 
-  _handleMessage(message){
-    if(message.author.username !== this.user.username){
+  _handleMessage(message) {
+    if (message.author.username !== this.user.username) {
       console.log("Handling it");
-    console.log(this.config);
-    const { persistent, triggers } = this.config;
-    console.log(persistent);
-    console.log(triggers);
-    for( const t in triggers){
-      if(message.content.toLowerCase().startsWith(t)){
-        const args = message.content.split(' ').slice(1);
-        this.config.triggers[t].fn(this, message, {args});
+      console.log(this.config);
+      const {
+        persistent,
+        triggers
+      } = this.config;
+      console.log(persistent);
+      console.log(triggers);
+      let ranFlag = false;
+      for (const t in triggers) {
+        if (message.content.toLowerCase().startsWith(t)) {
+          const args = message.content.split(' ').slice(1);
+          this.config.triggers[t].fn(this, message, {
+            args
+          });
+          ranFlag = true;
+          break
+        }
+      }
+      if (!ranFlag) {
+        for (const p in persistent) {
+          if (this.config.persistent[p].fn(this, message)) {
+            break
+          }
+        }
       }
     }
-    for( const p in persistent){
-      if(this.config.persistent[p].fn(this, message)){
-        break
-      }
-    }
-  }
 
   }
 
-  _loadConfig(userConfig){ // Mostly good enough for the time being
-    const supportedGroups = ['triggered','timed','persistent'];
+  _loadConfig(userConfig) { // Mostly good enough for the time being
+    const supportedGroups = ['triggered', 'timed', 'persistent'];
 
     Object.keys(this.config).forEach(k => {
-      try{
-          if(userConfig[k]){
-        	   this.config[k] = userConfig[k]
-             Object.keys(this.config[k]).forEach(j=>{
-               if(supportedGroups.indexOf(j)>=0){ // If the commands are in supported Group
-                 switch(j){
-                   case 'triggered':
-                    this.config.triggers = MapFunctions.mapTriggers(this.config[k][j]);
-                    break;
-                    case 'timed':
-                    this.config.timed = MapFunctions.mapTimed(this.config[k][j]);
-                    break;
-                    case 'persistent':
-                    this.config.persistent = MapFunctions.mapPersistent(this.config[k][j]);
-                    break;
-                    default:
-                    console.log(`Don't know function group: ${j}`)
-                 }
-               }
-             })
-           }
-       }catch(e){
-         console.error('Failed to set user configuration option: '+userConfig[k]);
-         console.error(e);
-       }
+      try {
+        if (userConfig[k]) {
+          this.config[k] = userConfig[k]
+          Object.keys(this.config[k]).forEach(j => {
+            if (supportedGroups.indexOf(j) >= 0) { // If the commands are in supported Group
+              switch (j) {
+                case 'triggered':
+                  this.config.triggers = MapFunctions.mapTriggers(this.config[k][j]);
+                  break;
+                case 'timed':
+                  this.config.timed = MapFunctions.mapTimed(this.config[k][j]);
+                  break;
+                case 'persistent':
+                  this.config.persistent = MapFunctions.mapPersistent(this.config[k][j]);
+                  break;
+                default:
+                  console.log(`Don't know function group: ${j}`)
+              }
+            }
+          })
+        }
+      } catch (e) {
+        console.error('Failed to set user configuration option: ' + userConfig[k]);
+        console.error(e);
+      }
     })
     console.log(this.config);
-    const temp =  this.config.actions.split('/').filter(m => { return m !== ""});
+    const temp = this.config.actions.split('/').filter(m => {
+      return m !== ""
+    });
     this.config.actions = temp.join('/');
   }
 
-  loadActions(){
+  loadActions() {
     const normalizedPath = require("path").resolve(__dirname, this.config.actions);
     const actions = this.config.actions
 
     require("fs").readdirSync(normalizedPath).forEach(function(file) {
-        exports[file.split('.')[0]] = require(["./", actions, file].join('/'));
+      exports[file.split('.')[0]] = require(["./", actions, file].join('/'));
     })
   }
 
   parseCommandStructure(commands) {
     Object.keys(commands).forEach(cat => {
-      this[camelCase('get_'+cat)] = () => this.config.commands[cat]
+      this[camelCase('get_' + cat)] = () => this.config.commands[cat]
     });
 
   }
