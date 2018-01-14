@@ -31,6 +31,7 @@ async function handleMatch(message, results){
 
 module.exports = (bot, message, game) => {
 
+  const gamename = game.join(" ");
   const fuzzOptions = {
     shouldSort: true,
     threshold: 0.3,
@@ -43,10 +44,9 @@ module.exports = (bot, message, game) => {
     ]
   };
   const currGame = message.author.presence.game
-  if (game.args.length === 0 && !currGame) {
+  if (gamename.length === 0 && !currGame) {
     message.channel.send(`Hey ${message.author.username} you either need to name a game or be playing a game that I can see.`);
   } else if (game) {
-    const gamename = game.args.join(" ");
     const fuse = new Fuse(bot.props.games, fuzzOptions); // "list" is the item array
     const result = fuse.search(gamename);
 

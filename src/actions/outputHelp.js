@@ -3,7 +3,8 @@ module.exports = (bot, message, {args}) =>  {
   const triggers = bot.config.triggers;
   const persistent = bot.config.persistent;
   let reply = "Simpleton Chat Bot\n"
-  reply += "Weather is Powered by Dark Sky (https://darksky.net/poweredby/)"
+  reply += "Weather is Powered by Dark Sky (https://darksky.net/poweredby/)\n"
+  reply += "Jokes are powered by (https://icanhazdadjoke.com/)\n"
   reply += "Available triggers are: \n"
   Object.keys(triggers).filter(t =>{
     return !triggers[t].is_secret

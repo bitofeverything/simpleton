@@ -4,6 +4,10 @@
       "trigger" : "!",
       "actions" : [
         {
+          "keyword":"joke",
+          "method":"dadJoke"
+        },
+        {
           "keyword":"weather",
           "method": "printWeather"
         },
@@ -26,6 +30,14 @@
           "keyword":"embed",
           "method":"customEmbedTest",
           "is_secret":true
+        },
+        {
+          "keyword":"schedule",
+          "delimiter":"+",
+          "is_secret":true,
+          "method":"raidSchedule",
+          "args":["title","time","slots"],
+          "validator":"scheduleValidator"
         }
       ]
     }

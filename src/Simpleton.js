@@ -58,26 +58,21 @@ export default class Simpleton extends Client {
         t.fn(this.props)
       }, t.interval);
     });
-    console.log(Object.keys(this.props));
   }
 
   _handleMessage(message) {
     if (message.author.username !== this.user.username) {
-      console.log("Handling it");
-      console.log(this.config);
       const {
         persistent,
         triggers
       } = this.config;
-      console.log(persistent);
-      console.log(triggers);
       let ranFlag = false;
       for (const t in triggers) {
         if (message.content.toLowerCase().startsWith(t)) {
-          const args = message.content.split(' ').slice(1);
-          this.config.triggers[t].fn(this, message, {
-            args
-          });
+          console.log("Trigger popped")
+          console.log(triggers[t]);
+          const args = message.content.split(triggers[t].delimiter).slice(1);
+          this.config.triggers[t].validate(this, message, args, this.config.triggers[t].fn);
           ranFlag = true;
           break
         }
@@ -123,7 +118,6 @@ export default class Simpleton extends Client {
         console.error(e);
       }
     })
-    console.log(this.config);
     const temp = this.config.actions.split('/').filter(m => {
       return m !== ""
     });
