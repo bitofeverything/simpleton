@@ -54,7 +54,7 @@ module.exports = (bot, message, game) => {
     if (result.length > 0) {
       handleMatch(message, result);
     } else {
-      message.author.send("Hey "+ message.author.username+", I don't know what game that is.");
+      message.channel.send("Hey "+ message.author.username+", I don't know what game that is.");
     }
 
 
