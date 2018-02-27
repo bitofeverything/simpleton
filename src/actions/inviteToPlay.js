@@ -44,11 +44,14 @@ module.exports = (bot, message, game) => {
     ]
   };
   const currGame = message.author.presence.game
-  if (gamename.length === 0 && !currGame) {
+
+  const targetGame = gamename?gamename:currGame?currGame.name:""
+	console.log(targetGame)
+  if (targetGame.length === 0 ) {
     message.channel.send(`Hey ${message.author.username} you either need to name a game or be playing a game that I can see.`);
-  } else if (game) {
+  } else if (targetGame) {
     const fuse = new Fuse(bot.props.games, fuzzOptions); // "list" is the item array
-    const result = fuse.search(gamename);
+    const result = fuse.search(targetGame);
 
     // const match = result.length > 0 ? result[0] : null
     if (result.length > 0) {
