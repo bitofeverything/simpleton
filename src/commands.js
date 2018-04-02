@@ -20,6 +20,12 @@
           "method":"inviteToPlay",
           "args":["game"],
           // "delimitter": "+"
+        },
+        {
+          "keyword":"music",
+          "method":"playMusic",
+          "args":["videoId"],
+          "is_secret":true
         }
       ]
     },

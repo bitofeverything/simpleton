@@ -1,30 +1,10 @@
-'use strict';
 import Discord, {
   Client
 } from 'discord.js';
 import camelCase from 'camelcase';
 import MapFunctions from './mapper';
+import db from './models'
 const auth = require('../auth.json');
-
-function mapTriggers(arr) {
-  console.log('received')
-  console.log(arr);
-  const triggers = {};
-
-  arr.map(triggerEntry => {
-    // { trigger: actions:{arg array, str:methods }}
-    Object.keys(triggerEntry.actions).map(actionKey => {
-      const action = triggerEntry.actions[actionKey]
-      triggers[triggerEntry.trigger + action.keyword] = {
-        fn: require('./actions/' + action.method),
-        args: action.args
-      };
-    })
-
-  })
-  console.log(triggers);
-  return triggers
-}
 
 export default class Simpleton extends Client {
 
@@ -33,7 +13,8 @@ export default class Simpleton extends Client {
 
     this.config = {
       'actions': '/actions/',
-      'commands': {}
+      'commands': {},
+      'db': db()
     }
     this.params = {};
     this.props = {}; //Collection of props.
@@ -69,8 +50,6 @@ export default class Simpleton extends Client {
       let ranFlag = false;
       for (const t in triggers) {
         if (message.content.toLowerCase().startsWith(t)) {
-          console.log("Trigger popped")
-          console.log(triggers[t]);
           const args = message.content.split(triggers[t].delimiter).slice(1);
           this.config.triggers[t].validate(this, message, args, this.config.triggers[t].fn);
           ranFlag = true;

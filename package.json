@@ -13,17 +13,24 @@
     "chrono-node": "^1.3.5",
     "discord.js": "^11.2.1",
     "fetch": "^1.1.0",
+    "ffmpeg-binaries": "^3.2.2-3",
     "fuse.js": "^3.2.0",
+    "nature": "^0.5.7",
     "node-fetch": "^1.7.3",
+    "node-opus": "^0.2.7",
     "rimraf": "^2.6.2",
+    "sequelize": "^4.37.5",
+    "sqlite3": "^4.0.0",
     "whatwg-fetch": "^2.0.3",
-    "winston": "^2.4.0"
+    "winston": "^2.4.0",
+    "ytdl-core": "^0.20.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-es2017": "^6.24.1",
     "webpack": "^3.10.0",
     "webpack-hot-middleware": "^2.21.0",
     "webpack-node-externals": "^1.6.0"

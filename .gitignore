@@ -3,3 +3,4 @@ node_modules/*
 auth.json
 *.lock
 dist/*
+yarn-error.log

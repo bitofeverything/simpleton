@@ -16,7 +16,7 @@ module.exports = {
       Object.keys(dependencies || {})],
     module: {
         rules: [{
-            test: /\.js?$/,
+            test: /\.js[x]?$/,
             use: 'babel-loader',
             exclude: /node_modules/
         }]
